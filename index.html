@@ -4,13 +4,13 @@
 		<link rel="stylesheet" type="text/css" href="styles.css">
 	</head>
 	<body>
-		<div id="container" ng-controller="bugsquishController" ng-click="clicked($event)">
+		<div id="container" ng-controller="bugsquishController" ng-click="miss()">
 			<div id="score-info">
 				<span class="num-hits"><strong>Hits:</strong> {{ numHits }}</span>
 				<br />
 				<span class="num-misses"><strong>Misses:</strong> {{ numMisses }}</span>
 			</div>
-			<span ng-repeat="bug in bugs" class="bug" ng-class="{squished: bug.squished}" style="left: {{ bug.x }}; top: {{ bug.y }};"></span>
+			<span ng-repeat="bug in bugs" class="bug" ng-class="{squished: bug.squished}" style="left: {{ bug.x }}; top: {{ bug.y }};" ng-click="squish(bug, $event)"></span>
 		</div>
 		<script type="text/javascript" src="angular.min.js"></script>
 		<script type="text/javascript" src="lodash.min.js"></script>

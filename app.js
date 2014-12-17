@@ -1,9 +1,10 @@
 angular.module('bugsquish', []);
 
 angular.module('bugsquish').controller('bugsquishController',
-	['$scope', '$window', '$log', function($scope, $window, $log) {
-		var bugHeight = 48;
-		var bugWidth = 48;
+	['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
+		var bugHeight = 24;
+		var bugWidth = 24;
+		var waitPeriod = 2000;
 
 		$scope.init = function() {
 			$scope.numHits = 0;
@@ -20,38 +21,57 @@ angular.module('bugsquish').controller('bugsquishController',
 			var x = Math.random() * maxX;
 			var y = Math.random() * maxY;
 
-			$scope.bugs.push({
-				x: x,
-				y: y,
+			var bug = {
 				squished: false
-			});
+			};
+			$scope.setLocation(bug);
+
+			$scope.bugs.push(bug);
 		};
 
-		$scope.hit = function(bug) {
+		$scope.setLocation = function(bug) {
+			if (bug.squished)
+				return;
+
+			var maxX = $window.innerWidth - bugWidth;
+			var maxY = $window.innerHeight - bugHeight;
+
+			bug.x = Math.random() * maxX;
+			bug.y = Math.random() * maxY;
+
+			$timeout(function() {
+				$scope.setLocation(bug);
+			}, waitPeriod);
+		};
+
+		$scope.squish = function(bug, $event) {
 			// increment the number of hits
+			$scope.numHits++;
+
+			// set the bug as squished
+			bug.squished = true;
 
 			// add a new bug to squish
+			$scope.addBug();
+
+			$event.stopPropagation();
 		};
 
 		$scope.miss = function() {
 			// increment the number of misses
-		};
-
-		$scope.clicked = function($event) {
-			var clickX = $event.x;
-			var clickY = $event.y;
-
-			var bug = $scope.getUnsquishedBug();
-			if ((bug.x <= clickX && clickX <= bug.X + bugWidth) && (bug.y <= clickY && clickY <= bug.Y + bugHeight)) {
-				hit(bug);
-			} else {
-				miss(bug);
-			}
+			$scope.numMisses++;
 		};
 
 		$scope.getUnsquishedBug = function() {
 			return _.find($scope.bugs, function(bug) { return !bug.squished; });
 		}
+
+		$scope.$watch('numHits', function() {
+			if ($scope.numHits == 10) {
+				alert("Game over!\n\nYour final score is " + ($scope.numHits - $scope.numMisses));
+				$scope.init();
+			}
+		});
 
 		$scope.init();
 	}]
