@@ -16,11 +16,15 @@ angular.module('bugsquish').controller('bugsquishController',
 		};
 
 		$scope.addBug = function() {
+			// create a new un-squished bug
 			var bug = {
 				squished: false
 			};
+
+			// set the location for the bug
 			$scope.setLocation(bug);
 
+			// add the bug to the array of bugs so it will appear on-screen
 			$scope.bugs.push(bug);
 		};
 
@@ -53,6 +57,8 @@ angular.module('bugsquish').controller('bugsquishController',
 		$scope.$watch('numHits', function() {
 			if ($scope.numHits == numBugsToWin) {
 				alert("Game over!\n\nYour final score is " + ($scope.numHits - $scope.numMisses));
+
+				// restart the game
 				$scope.init();
 			}
 		});
