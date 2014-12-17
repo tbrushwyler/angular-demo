@@ -38,16 +38,20 @@ angular.module('bugsquish').controller('bugsquishController',
 
 		$scope.squish = function(bug, $event) {
 			// increment the number of hits
+			numHits++;
 
 			// set the bug as squished
+			// todo
 
 			// add a new bug to squish
+			// todo
 
 			$event.stopPropagation();
 		};
 
 		$scope.miss = function() {
 			// increment the number of misses
+			numMisses++;
 		};
 
 		$scope.getUnsquishedBug = function() {
