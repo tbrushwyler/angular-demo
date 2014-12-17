@@ -4,7 +4,7 @@ angular.module('bugsquish').controller('bugsquishController',
 	['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
 		var bugHeight = 24;
 		var bugWidth = 24;
-		var numBugsToWin = 10;
+		var numBugsToWin = 1;
 		var waitPeriod = 2000;
 
 		$scope.init = function() {
@@ -38,7 +38,7 @@ angular.module('bugsquish').controller('bugsquishController',
 
 		$scope.squish = function(bug, $event) {
 			// increment the number of hits
-			numHits++;
+			$scope.numHits++;
 
 			// set the bug as squished
 			// todo
@@ -51,7 +51,7 @@ angular.module('bugsquish').controller('bugsquishController',
 
 		$scope.miss = function() {
 			// increment the number of misses
-			numMisses++;
+			$scope.numMisses++;
 		};
 
 		$scope.getUnsquishedBug = function() {
