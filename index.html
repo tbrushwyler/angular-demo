@@ -1,14 +1,24 @@
 <html ng-app="bugsquish">
 	<head>
-		<title>Squish-a-bug</title>
+		<title>squish-a-bug</title>
 		<link rel="stylesheet" type="text/css" href="styles.css">
+		<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
 		<div id="container" ng-controller="bugsquishController" ng-click="miss()">
+			<h1>squish-a-bug</h1>
 			<div id="score-info">
-				<span class="num-hits"><strong>Hits:</strong> {{ numHits }}</span>
-				<br />
-				<span class="num-misses"><strong>Misses:</strong> {{ numMisses }}</span>
+				<table>
+					<tr>
+						<td>Hits:</td>
+						<td>{{ numHits }}</td>
+					</tr>
+					<tr>
+						<td>Misses:</td>
+						<td>{{ numMisses }}</td>
+					</tr>
+				</table>
 			</div>
 			<span ng-repeat="bug in bugs" class="bug" ng-class="{squished: bug.squished}" style="left: {{ bug.x }}; top: {{ bug.y }};" ng-click="squish(bug, $event)"></span>
 		</div>

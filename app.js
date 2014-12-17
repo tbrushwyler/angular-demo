@@ -4,6 +4,7 @@ angular.module('bugsquish').controller('bugsquishController',
 	['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
 		var bugHeight = 24;
 		var bugWidth = 24;
+		var numBugsToWin = 10;
 		var waitPeriod = 2000;
 
 		$scope.init = function() {
@@ -15,12 +16,6 @@ angular.module('bugsquish').controller('bugsquishController',
 		};
 
 		$scope.addBug = function() {
-			var maxX = $window.innerWidth;
-			var maxY = $window.innerHeight;
-
-			var x = Math.random() * maxX;
-			var y = Math.random() * maxY;
-
 			var bug = {
 				squished: false
 			};
@@ -30,36 +25,25 @@ angular.module('bugsquish').controller('bugsquishController',
 		};
 
 		$scope.setLocation = function(bug) {
-			if (bug.squished)
-				return;
-
 			var maxX = $window.innerWidth - bugWidth;
 			var maxY = $window.innerHeight - bugHeight;
 
 			bug.x = Math.random() * maxX;
 			bug.y = Math.random() * maxY;
-
-			$timeout(function() {
-				$scope.setLocation(bug);
-			}, waitPeriod);
 		};
 
 		$scope.squish = function(bug, $event) {
 			// increment the number of hits
-			$scope.numHits++;
 
 			// set the bug as squished
-			bug.squished = true;
 
 			// add a new bug to squish
-			$scope.addBug();
 
 			$event.stopPropagation();
 		};
 
 		$scope.miss = function() {
 			// increment the number of misses
-			$scope.numMisses++;
 		};
 
 		$scope.getUnsquishedBug = function() {
@@ -67,7 +51,7 @@ angular.module('bugsquish').controller('bugsquishController',
 		}
 
 		$scope.$watch('numHits', function() {
-			if ($scope.numHits == 10) {
+			if ($scope.numHits == numBugsToWin) {
 				alert("Game over!\n\nYour final score is " + ($scope.numHits - $scope.numMisses));
 				$scope.init();
 			}
