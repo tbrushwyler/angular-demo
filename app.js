@@ -4,7 +4,7 @@ angular.module('bugsquish').controller('bugsquishController',
 	['$scope', '$window', '$timeout', function($scope, $window, $timeout) {
 		var bugHeight = 24;
 		var bugWidth = 24;
-		var numBugsToWin = 1;
+		var numBugsToWin = 10;
 		var waitPeriod = 2000;
 
 		$scope.init = function() {
@@ -29,11 +29,15 @@ angular.module('bugsquish').controller('bugsquishController',
 		};
 
 		$scope.setLocation = function(bug) {
+			if (bug.squished) return;
+			
 			var maxX = $window.innerWidth - bugWidth;
 			var maxY = $window.innerHeight - bugHeight;
 
 			bug.x = Math.random() * maxX;
 			bug.y = Math.random() * maxY;
+
+			$timeout(function() { $scope.setLocation(bug);}, waitPeriod);
 		};
 
 		$scope.squish = function(bug, $event) {
@@ -41,10 +45,10 @@ angular.module('bugsquish').controller('bugsquishController',
 			$scope.numHits++;
 
 			// set the bug as squished
-			// todo
+			bug.squished = true;
 
 			// add a new bug to squish
-			// todo
+			$scope.addBug();
 
 			$event.stopPropagation();
 		};
